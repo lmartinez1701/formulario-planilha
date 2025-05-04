@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário com CSV</title>
+</head>
+<body>
+  <h1>Formulário</h1>
+  <form id="formulario">
+    <label>Nome: <input type="text" name="nome" required></label><br>
+    <label>Email: <input type="email" name="email" required></label><br>
+    <label>Mensagem: <textarea name="mensagem" required></textarea></label><br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("formulario");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        nome: form.nome.value,
+        email: form.email.value,
+        mensagem: form.mensagem.value
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/enviar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.text();
+        alert(result);
+      } catch (err) {
+        alert("Erro: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
